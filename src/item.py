@@ -9,5 +9,8 @@ class Item:
     def __repr__(self):
         return f'{self.name}'
 
-    def on_take(self, item):
-        print(f'You have picked up {item}')
+    def on_take(self):
+        print(f'You have picked up the {self.name}!')
+
+    def on_drop(self,):
+        print(f'You have dropped the {self.name}!')

@@ -66,33 +66,34 @@ d = input("[N]orth  \n[E]ast   \n[S]outh    \n[W]est    \n[Q]uit\n[I]nventory \n
 
 d = d.lower().strip().split()
 
+allowed_commands = ['n', 's', 'w', 'e', 'i', 'take', 'drop']
+
 # Write a loop that:
 while 'q' not in d:
     if len(d) == 1:
-        if d[0] == 'n':
-            new_player.current_room = new_player.current_room.n_to
-        elif d[0] == 'e':
-            new_player.current_room = new_player.current_room.e_to
-        elif d[0] == 's':
-            new_player.current_room = new_player.current_room.s_to
-        elif d[0] == 'w':
-            new_player.current_room = new_player.current_room.w_to
-        elif d[0] == 'i':
-            new_player.print_inventory()
+        if d[0] in allowed_commands:
+            if d[0] == 'i':
+                new_player.print_inventory()
+            else:
+                direction = d[0]
+                new_player.move_player(direction)
+        else:
+            print('\nPlease enter a valid direction')
     elif len(d) == 2:
+        item = d[1]
+        print(item)
         if 'take' in d:
-            item = d[1]
             new_player.take_item(item)
-
-        if 'drop' in d:
-            item = d[1]
+        elif 'drop' in d:
             new_player.drop_item(item)
-
+            # dropped_item.on_drop()
+        else:
+            print('\nYou do dot have that item in your inventory')
     else:
-        print('Please enter a valid command')
+        print('You cannot perform that action')
     new_player.print_current_room()
     print('What do you want to do next?')
-    d = input("[N]orth  \n[E]ast   \n[S]outh    \n[W]est    \n[Q]uit\n").lower(
+    d = input("[N]orth  \n[E]ast   \n[S]outh    \n[W]est    \n[Q]uit\n[I]nventory\n").lower(
     ).strip().split()
 
 

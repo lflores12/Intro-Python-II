@@ -12,6 +12,13 @@ class Room:
         self.w_to = None
         self.items = []
 
+    def find_item(self, item):
+        for i in self.items:
+            if i.name == item:
+                return i
+            else:
+                print('That item is not in this room')
+
     def __str__(self):
         return f'Room Name: {self.name} \nDescription:{self.description} \nItems in Room: {self.items}'
 
