@@ -10,9 +10,10 @@ class Room:
         self.e_to = None
         self.s_to = None
         self.w_to = None
+        self.items = []
 
     def __str__(self):
-        return f'Room Name: {self.name}: Description:{self.description}'
+        return f'Room Name: {self.name} \nDescription:{self.description} \nItems in Room: {self.items}'
 
     def __repr__(self):
         return f'Room({repr(self.name)}, {repr(self.description)})'

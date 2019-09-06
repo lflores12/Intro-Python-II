@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from item import Item
 
 # Declare all the rooms
 
@@ -34,6 +35,21 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+# Making a list of all the items in the game
+all_items = {
+    'sword': Item('sword', 'a sharp sword'),
+    'shield': Item('shield', 'a shield to protect you from the unknown'),
+    'map': Item('map', 'a map to help guide you through the rooms and to the treasure!'),
+    'flashlight': Item('flashlight', 'a small flashlight to help you in the dark rooms. Careful though, it doesnt have much battery left'),
+    'treasure': Item('treasure', 'Treasure chest that is empty!'),
+}
+
+# Assigning the items to specific rooms
+room['outside'].items.append(all_items['sword'])
+room['outside'].items.append(all_items['flashlight'])
+room['foyer'].items.append(all_items['shield'])
+
+
 #
 # Main
 #
@@ -41,24 +57,44 @@ room['treasure'].s_to = room['narrow']
 # Make a new player object that is currently in the 'outside' room.
 new_player = Player('Leo', room['outside'])
 new_player.print_current_room()
-d = input("[n] North  [e] East   [s] South    [w] West    [q] Quit\n")
 
+# strip()
+# lower()
+# split()
+
+d = input("[N]orth  \n[E]ast   \n[S]outh    \n[W]est    \n[Q]uit\n[I]nventory \nYou can also take an item from a room 'take'' *item name'\n Or drop an item 'drop' '*item name'")
+
+d = d.lower().strip().split()
 
 # Write a loop that:
-while not d == 'q':
-    if d == 'n':
-        new_player.current_room = new_player.current_room.n_to
-    elif d == 'e':
-        new_player.current_room = new_player.current_room.e_to
-    elif d == 's':
-        new_player.current_room = new_player.current_room.s_to
-    elif d == 'w':
-        new_player.current_room = new_player.current_room.w_to
+while 'q' not in d:
+    if len(d) == 1:
+        if d[0] == 'n':
+            new_player.current_room = new_player.current_room.n_to
+        elif d[0] == 'e':
+            new_player.current_room = new_player.current_room.e_to
+        elif d[0] == 's':
+            new_player.current_room = new_player.current_room.s_to
+        elif d[0] == 'w':
+            new_player.current_room = new_player.current_room.w_to
+        elif d[0] == 'i':
+            new_player.print_inventory()
+    elif len(d) == 2:
+        if 'take' in d:
+            item = d[1]
+            new_player.take_item(item)
+
+        if 'drop' in d:
+            item = d[1]
+            new_player.drop_item(item)
+
     else:
-        print('Please enter a valid direction')
+        print('Please enter a valid command')
     new_player.print_current_room()
-    print('Continue by choosing a new direction...')
-    d = input("[n] North  [e] East   [s] South    [w] West    [q] Quit\n")
+    print('What do you want to do next?')
+    d = input("[N]orth  \n[E]ast   \n[S]outh    \n[W]est    \n[Q]uit\n").lower(
+    ).strip().split()
+
 
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
